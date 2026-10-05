@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RANGE ELITE — автомобили Range Rover</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f2;
+            color: #181818;
+            line-height: 1.6;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        body.dark-theme {
+            background: #111111;
+            color: #eeeeee;
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .button {
+            display: inline-block;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            background: #1b1b1b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease,
+                        background 0.3s ease,
+                        color 0.3s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            background: #777;
+        }
+
+
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dark-theme .header {
+            background: rgba(20, 20, 20, 0.94);
+            border-color: #333;
+        }
+
+        .header__inner {
+            min-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .logo {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav a {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #888;
+        }
+
+        .header__actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-button,
+        .cart-button {
+            border: 1px solid #aaa;
+            background: transparent;
+            color: inherit;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .theme-button:hover,
+        .cart-button:hover {
+            background: #222;
+            color: white;
+        }
+
+        .cart-count {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 23px;
+            height: 23px;
+            margin-left: 4px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            background: #d9a441;
+            color: #111;
+            font-weight: bold;
+        }
+
+
+        .hero {
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.55),
+ rgba(0, 0, 0, 0.65)
+                ),
+                url("https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1800&q=85")
+                center / cover;
+            color: white;
+        }
+
+        .hero__content {
+            max-width: 800px;
+            animation: heroAppear 1s ease;
+        }
+
+        .hero__subtitle {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .hero__title {
+            font-family: Georgia, serif;
+            font-size: clamp(50px, 8vw, 95px);
+            line-height: 1;
+            margin-bottom: 25px;
+        }
+
+        .hero__text {
+            max-width: 650px;
+            margin: 0 auto 30px;
+            font-size: 19px;
+        }
+
+        .hero .button {
+            background: white;
+            color: #111;
+        }
+
+        .hero .button:hover {
+            background: #d9a441;
+            color: #111;
+        }
+
+        @keyframes heroAppear {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        .catalog {
+            padding: 100px 0;
+        }
+
+        .catalog__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .car-card {
+            overflow: hidden;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.35s ease,
+                        box-shadow 0.35s ease;
+        }
+
+        .dark-theme .car-card {
+            background: #1c1c1c;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .car-card__image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .car-card__content {
+            padding: 25px;
+        }
+
+        .car-card__title {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .car-card__description {
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .dark-theme .car-card__description {
+            color: #aaa;
+        }
+
+        .car-card__info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .car-card__price {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .car-card__year {
+            color: #888;
+        }
+
+        .car-card__button {
+            width: 100%;
+        }
+
+
+
+        .selector-section {
+            padding: 80px 0;
+            background: #deded9;
+        }
+
+        .dark-theme .selector-section {
+            background: #191919;
+        }
+
+        .selector {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .selector__buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .selector__button {
+            padding: 12px 20px;
+            border: 1px solid #999;
+            border-radius: 30px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .selector__button:hover,
+        .selector__button.active {
+            background: #222;
+            color: white;
+        }
+
+        .selector__result {
+[21.08.2026 11:45] MRT ☥: min-height: 80px;
+            padding: 25px;
+            border-radius: 12px;
+            background: white;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .dark-theme .selector__result {
+            background: #292929;
+        }
+
+
+
+
+        .about {
+            padding: 100px 0;
+        }
+
+        .about__content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about__title {
+            font-family: Georgia, serif;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .about__text {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .dark-theme .about__text {
+            color: #aaa;
+        }
+
+        .about__list {
+            list-style: none;
+        }
+
+        .about__list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .about__image {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+        }
+
+
+
+        .form-section {
+            padding: 100px 0;
+            background: #e7e7e2;
+        }
+
+        .dark-theme .form-section {
+            background: #181818;
+        }
+
+        .form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 35px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-theme .form {
+            background: #242424;
+        }
+
+        .form__group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .form__label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .form__input,
+        .form__select,
+        .form__textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #bbb;
+            border-radius: 7px;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .form__input:focus,
+        .form__select:focus,
+        .form__textarea:focus {
+            border-color: #222;
+        }
+
+        .form__textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form__button {
+            width: 100%;
+        }
+
+        .form__message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+
+
+
+        .footer {
+            padding: 40px 0;
+            background: #111;
+            color: white;
+        }
+
+        .footer__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer__logo {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .footer__text {
+            color: #aaa;
+        }
+
+
+
+        @media (max-width: 900px) {
+
+            .catalog__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about__content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero {
+                min-height: 550px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .header__inner {
+                min-height: 65px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .theme-button {
+                font-size: 0;
+            }
+
+            .
+theme-button::after {
+                content: "☾";
+                font-size: 18px;
+            }
+
+            .catalog__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .hero__title {
+                font-size: 55px;
+            }
+
+            .hero__text {
+                font-size: 16px;
+            }
+
+            .form {
+                padding: 25px 20px;
+            }
+
+            .footer__inner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <header class="header">
+
+        <div class="container header__inner">
+
+            <div class="logo">
+                RANGE ELITE
+            </div>
+
+            <nav class="nav">
+                <a href="#catalog">Автомобили</a>
+                <a href="#about">О нас</a>
+                <a href="#form">Контакты</a>
+            </nav>
+
+            <div class="header__actions">
+
+                <button
+                    class="theme-button"
+                    id="themeButton"
+                    type="button">
+                    ☾ Тема
+                </button>
+
+                <button
+                    class="cart-button"
+                    type="button"
+                    onclick="scrollToCatalog()">
+                    🛒 Корзина
+                    <span
+                        class="cart-count"
+                        id="cartCount">
+                        0
+                    </span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+
+
+        <section class="hero">
+
+            <div class="hero__content">
+
+                <p class="hero__subtitle">
+                    Premium Cars
+                </p>
+
+                <h1 class="hero__title">
+                    RANGE ROVER
+                </h1>
+
+                <p class="hero__text">
+                    Роскошь, мощность и технологии,
+                    объединённые в одном автомобиле.
+                </p>
+
+                <a
+                    href="#catalog"
+                    class="button">
+                    Подробнее
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <section
+            class="catalog"
+            id="catalog">
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    Наши автомобили
+                </h2>
+
+                <div class="catalog__grid">
+
+                    <!-- Автомобиль 1 -->
+
+                    <article class="car-card">
+
+                        <img
+                            class="car-card__image"
+                            src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80"
+                            alt="Range Rover Sport">
+
+                        <div class="car-card__content">
+
+                            <h3 class="car-card__title">
+                                Range Rover Sport
+                            </h3>
+
+                            <p class="car-card__description">
+                                Динамичный SUV с мощным двигателем
+                                и премиальным интерьером.
+                            </p>
+
+                            <div class="car-card__info">
+
+                                <span class="car-card__price">
+                                    €89 900
+                                </span>
+
+                                <span class="car-card__year">
+                                    2024
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="button car-card__button buy-button"data-car="Range Rover Sport">
+                                В корзину
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Автомобиль 2 -->
+
+                    <article class="car-card">
+
+                        <img
+                            class="car-card__image"
+                            src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=900&q=80"
+                            alt="Range Rover Velar">
+
+                        <div class="car-card__content">
+
+                            <h3 class="car-card__title">
+                                Range Rover Velar
+                            </h3>
+
+                            <p class="car-card__description">
+                                Современный дизайн, комфорт
+                                и интеллектуальные технологии.
+                            </p>
+
+                            <div class="car-card__info">
+
+                                <span class="car-card__price">
+                                    €74 500
+                                </span>
+
+                                <span class="car-card__year">
+                                    2023
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="button car-card__button buy-button"
+                                data-car="Range Rover Velar">
+                                В корзину
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- Автомобиль 3 -->
+
+                    <article class="car-card">
+
+                        <img
+                            class="car-card__image"
+                            src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80"
+                            alt="Range Rover Evoque">
+
+                        <div class="car-card__content">
+
+                            <h3 class="car-card__title">
+                                Range Rover Evoque
+                            </h3>
+
+                            <p class="car-card__description">
+                                Компактный премиальный кроссовер
+                                для города и путешествий.
+                            </p>
+
+                            <div class="car-card__info">
+
+                                <span class="car-card__price">
+                                    €59 900
+                                </span>
+
+                                <span class="car-card__year">
+                                    2024
+                                </span>
+
+                            </div>
+
+                            <button
+                                class="button car-card__button buy-button"
+                                data-car="Range Rover Evoque">
+                                В корзину
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="selector-section">
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    Подберите свой Range Rover
+                </h2>
+
+                <div class="selector">
+
+                    <div class="selector__buttons">
+
+                        <button
+                            class="selector__button active"
+                            data-type="city">
+                            Для города
+                        </button>
+
+                        <button
+                            class="selector__button"
+                            data-type="family">
+                            Для семьи
+                        </button>
+
+                        <button
+class="selector__button"
+                            data-type="power">
+                            Максимальная мощность
+                        </button>
+
+                    </div>
+
+                    <div
+                        class="selector__result"
+                        id="selectorResult">
+
+                        Range Rover Evoque отлично подходит
+                        для комфортного передвижения по городу.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <section
+            class="about"
+            id="about">
+
+            <div class="container about__content">
+
+                <div>
+
+                    <h2 class="about__title">
+                        Почему RANGE ELITE?
+                    </h2>
+
+                    <p class="about__text">
+                        Мы специализируемся на продаже автомобилей
+                        премиум-класса и предлагаем клиентам только
+                        тщательно проверенные автомобили.
+                    </p>
+
+                    <ul class="about__list">
+
+                        <li>
+                            ✓ Проверка технического состояния
+                        </li>
+
+                        <li>
+                            ✓ Прозрачная история автомобиля
+                        </li>
+
+                        <li>
+                            ✓ Гарантия качества
+                        </li>
+
+                        <li>
+                            ✓ Помощь с оформлением документов
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div>
+
+                    <img
+                        class="about__image"
+                        src="https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1000&q=80"
+                        alt="Автомобиль премиум класса">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <section
+            class="form-section"
+            id="form">
+
+            <div class="container">
+
+                <h2 class="section-title">
+                    Оставить заявку
+                </h2>
+
+                <form
+                    class="form"
+                    id="contactForm">
+
+                    <!-- Вопрос 1 -->
+
+                    <div class="form__group">
+
+                        <label
+                            class="form__label"
+                            for="name">
+                            1. Как вас зовут?
+                        </label>
+
+                        <input
+                            class="form__input"
+                            id="name"
+                            type="text"
+                            placeholder="Введите имя"
+                            required>
+
+                    </div>
+
+
+                    <!-- Вопрос 2 -->
+
+                    <div class="form__group">
+
+                        <label
+                            class="form__label"
+                            for="phone">
+                            2. Ваш номер телефона?
+                        </label>
+
+                        <input
+                            class="form__input"
+                            id="phone"
+                            type="tel"
+                            placeholder="+358 ..."
+                            required>
+
+                    </div>
+
+
+                    <!-- Вопрос 3 -->
+
+                    <div class="form__group">
+
+                        <label
+                            class="form__label"
+                            for="car">
+                            3. Какой автомобиль вас интересует?
+                        </label>
+
+                        <select
+                            class="form__select"
+                            id="car"
+                            required>
+<option value="">
+                                Выберите автомобиль
+                            </option>
+
+                            <option>
+                                Range Rover Sport
+                            </option>
+
+                            <option>
+                                Range Rover Velar
+                            </option>
+
+                            <option>
+                                Range Rover Evoque
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Вопрос 4 -->
+
+                    <div class="form__group">
+
+                        <label
+                            class="form__label"
+                            for="budget">
+                            4. Какой у вас бюджет?
+                        </label>
+
+                        <input
+                            class="form__input"
+                            id="budget"
+                            type="text"
+                            placeholder="Например: €80 000"
+                            required>
+
+                    </div>
+
+
+                    <!-- Вопрос 5 -->
+
+                    <div class="form__group">
+
+                        <label
+                            class="form__label"
+                            for="comment">
+                            5. Дополнительные пожелания?
+                        </label>
+
+                        <textarea
+                            class="form__textarea"
+                            id="comment"
+                            placeholder="Напишите ваши пожелания..."
+                            required></textarea>
+
+                    </div>
+
+
+                    <button
+                        class="button form__button"
+                        type="submit">
+                        Отправить заявку
+                    </button>
+
+                    <p
+                        class="form__message"
+                        id="formMessage">
+                    </p>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="container footer__inner">
+
+            <div class="footer__logo">
+                RANGE ELITE
+            </div>
+
+            <p class="footer__text">
+                © 2026 RANGE ELITE. Все права защищены.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <script>
+
+
+        const themeButton =
+            document.getElementById("themeButton");
+
+        themeButton.addEventListener("click", function () {
+
+            document.body.classList.toggle("dark-theme");
+
+            if (
+                document.body.classList.contains("dark-theme")
+            ) {
+                themeButton.textContent = "☀ Светлая тема";
+            } else {
+                themeButton.textContent = "☾ Тёмная тема";
+            }
+
+        });
+
+
+
+
+        let cartCount = 0;
+
+        const cartCounter =
+            document.getElementById("cartCount");
+
+        const buyButtons =
+            document.querySelectorAll(".buy-button");
+
+
+        buyButtons.forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                cartCount++;
+
+                cartCounter.textContent = cartCount;
+
+                button.textContent = "− Убрать";
+
+                button.classList.add("remove-button");
+
+                button.removeEventListener(
+                    "click",
+                    addToCart
+                );
+
+                button.addEventListener(
+                    "click",
+                    removeFromCart
+                );
+
+            });
+
+        });
+{
+
+            cartCount++;
+
+            cartCounter.textContent = cartCount;
+
+        }
+
+
+        function removeFromCart() {
+
+            if (cartCount > 0) {
+
+                cartCount--;
+
+                cartCounter.textContent = cartCount;
+
+                this.textContent = "В корзину";
+
+                this.classList.remove("remove-button");
+
+                this.removeEventListener(
+                    "click",
+                    removeFromCart
+                );
+
+                this.addEventListener(
+                    "click",
+                    addProductAgain
+                );
+
+            }
+
+        }
+
+
+        function addProductAgain() {
+
+            cartCount++;
+
+            cartCounter.textContent = cartCount;
+
+            this.textContent = "− Убрать";
+
+            this.addEventListener(
+                "click",
+                removeFromCart
+            );
+
+        }
+
+
+
+        function scrollToCatalog() {
+
+            document
+                .getElementById("catalog")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+
+        const selectorButtons =
+            document.querySelectorAll(".selector__button");
+
+        const selectorResult =
+            document.getElementById("selectorResult");
+
+
+        selectorButtons.forEach(function(button) {
+
+            button.addEventListener("click", function() {
+
+                selectorButtons.forEach(function(item) {
+
+                    item.classList.remove("active");
+
+                });
+
+                this.classList.add("active");
+
+                const type = this.dataset.type;
+
+
+                if (type === "city") {
+
+                    selectorResult.textContent =
+                        "Range Rover Evoque отлично подходит " +
+                        "для комфортного передвижения по городу.";
+
+                }
+
+
+                if (type === "family") {
+
+                    selectorResult.textContent =
+                        "Range Rover Velar сочетает просторный " +
+                        "салон, комфорт и безопасность для всей семьи.";
+
+                }
+
+
+                if (type === "power") {
+
+                    selectorResult.textContent =
+                        "Range Rover Sport создан для тех, " +
+                        "кто ценит мощность, динамику и драйв.";
+
+                }
+
+            });
+
+        });
+
+
+        /* =================================
+           ФОРМА
+        ================================= */
+
+        const contactForm =
+            document.getElementById("contactForm");
+
+        const formMessage =
+            document.getElementById("formMessage");
+
+
+        contactForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                formMessage.textContent =
+                    "Спасибо! Ваша заявка успешно отправлена.";
+
+                contactForm.reset();
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
